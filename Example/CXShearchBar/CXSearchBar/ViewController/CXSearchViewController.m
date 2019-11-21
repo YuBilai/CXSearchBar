@@ -7,21 +7,10 @@
 //
 
 #import "CXSearchViewController.h"
-#import "CXSearchModel.h"
-#import "CXSearchCollectionViewCell.h"
-#import "CXSearchCollectionReusableView.h"
-#import "CXSearchLayout.h"
-#import "CXDBTool.h"
+
 
 @interface CXSearchViewController ()<UICollectionReusableViewButtonDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UITextFieldDelegate
 >
-
-@property (weak, nonatomic) IBOutlet UICollectionView *searchCollectionView;
-@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
-@property (nonatomic, strong) NSMutableArray *dataSource;
-@property (nonatomic, strong) NSMutableArray *searchDataSource;
-@property (strong, nonatomic) CXSearchLayout *searchLayout;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *top;
 
 @end
 
@@ -49,6 +38,16 @@ const CGFloat kFirstitemleftSpace = 20;
     [self.searchCollectionView setCollectionViewLayout:self.searchLayout animated:YES];
     [self.searchCollectionView registerClass:[CXSearchCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:NSStringFromClass([CXSearchCollectionReusableView class])];
     [self.searchCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CXSearchCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([CXSearchCollectionViewCell class])];
+    
+    UIView *leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
+    UIImageView *imgv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"search_icon"]];
+    imgv.frame = CGRectMake(0, 0, 20, 20);
+    [leftView addSubview:imgv];
+    _searchTextField.leftView = leftView;
+    _searchTextField.leftViewMode = UITextFieldViewModeAlways;
+    _searchTextField.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textField2TextChange:) name:UITextFieldTextDidChangeNotification object:_searchTextField];
+
 }
 
 - (void)setUpdata {
@@ -64,14 +63,19 @@ const CGFloat kFirstitemleftSpace = 20;
     }
 }
 
+-(void)textField2TextChange:(NSNotification *)noti{
+    UITextField *tf = (UITextField *)noti.object;
+    if (tf.text.length>0) {
+        [self.view bringSubviewToFront:self.searchTableView];
+    }else{
+        [self.view bringSubviewToFront:self.searchCollectionView];
+    }
+    
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == 0) {
-        return self.dataSource.count;
-    } else if(section == 1) {
-        return self.searchDataSource.count;
-    }
-    return 0;
+    return self.searchDataSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,23 +84,15 @@ const CGFloat kFirstitemleftSpace = 20;
 
 #pragma mark - UICollectionViewDelegate
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    if (self.searchDataSource.count > 0) {
-        return 2;
-    }
     return 1;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger section = indexPath.section;
+  
     NSInteger item = indexPath.item;
-    
     CXSearchCollectionViewCell * searchCollectionViewCell = (CXSearchCollectionViewCell *)cell;
     CXSearchModel *searchModel;
-    if (section == 0) {
-         searchModel = self.dataSource[item];
-    } else if (section == 1) {
-        searchModel = self.searchDataSource[item];
-    }
+    searchModel = self.searchDataSource[item];
     searchCollectionViewCell.text = searchModel.content;
 };
 
@@ -105,44 +101,26 @@ const CGFloat kFirstitemleftSpace = 20;
     if ([kind isEqualToString: UICollectionElementKindSectionHeader]){
         CXSearchCollectionReusableView* searchCollectionReusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:NSStringFromClass([CXSearchCollectionReusableView class]) forIndexPath:indexPath];
         searchCollectionReusableView.delegate = self;
-        if(indexPath.section == 0) {
-            searchCollectionReusableView.text = @"热搜";
-            searchCollectionReusableView.imageName = @"cool_icon";
-            searchCollectionReusableView.hidenDeleteBtn = YES;
-        }else if(indexPath.section == 1){
-            searchCollectionReusableView.text = @"历史记录";
-            searchCollectionReusableView.imageName = @"search_icon";
-            searchCollectionReusableView.hidenDeleteBtn = NO;
-        }
+        searchCollectionReusableView.text = @"历史记录";
+        searchCollectionReusableView.hidenDeleteBtn = NO;
         reusableview = searchCollectionReusableView;
     }
     return reusableview;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger section = indexPath.section;
     NSInteger item = indexPath.item;
-    if (section == 0) {
-        CXSearchModel *searchModel = self.dataSource[item];
-        return [CXSearchCollectionViewCell getSizeWithText:searchModel.content];
-    } else if (section == 1) {
-        CXSearchModel *searchModel = self.searchDataSource[item];
-        return [CXSearchCollectionViewCell getSizeWithText:searchModel.content];
-    }
+    CXSearchModel *searchModel = self.searchDataSource[item];
+    return [CXSearchCollectionViewCell getSizeWithText:searchModel.content];
     return CGSizeMake(80, 24);
 }
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    NSInteger section = indexPath.section;
     NSInteger item = indexPath.item;
     CXSearchModel *searchModel;
-    if (section == 0) {
-        searchModel =  self.dataSource[item];
-    } else if (section == 1){
-         searchModel =  self.searchDataSource[item];
-    }
+    searchModel =  self.searchDataSource[item];
     [self showAlertWithTitle:[NSString stringWithFormat:@"您该去搜索 %@ 的相关内容了",searchModel.content]];
 }
 
@@ -177,6 +155,10 @@ const CGFloat kFirstitemleftSpace = 20;
     }
     return isExist;
 }
+
+
+
+
 
 - (void)reloadData:(NSString *)textString {
     CXSearchModel *searchModel = [[CXSearchModel alloc] initWithName:textString searchId:@""];

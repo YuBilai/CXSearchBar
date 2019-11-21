@@ -37,11 +37,12 @@
 }
 
 - (void)setUp {
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(18.0f, (self.frame.size.height - 18.0f / 2), 18, 18)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(18.0f, (self.frame.size.height - 18.0f / 2), 0, 18)];
     [self addSubview:imageView];
+    imageView.backgroundColor = UIColor.whiteColor;
     self.imageView = imageView;
     
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(18 +5.0f + 18, (self.frame.size.height - 18.0f / 2), 100.0f, 18)];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(18, (self.frame.size.height - 18.0f / 2), 100.0f, 18)];
     label.textColor = [UIColor colorWithWhite:0.294 alpha:1.000];
     label.font = [UIFont systemFontOfSize:15.0f];
     [self addSubview:label];

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10D0FD4D249DFE27C7C4BD32 /* Pods_CXShearchBar_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C35188F392EAC5DE6C16C1DD /* Pods_CXShearchBar_Example.framework */; };
+		181FE8B323867469003A2610 /* QuotationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FE8B223867469003A2610 /* QuotationModel.m */; };
 		5A484C5822734CCD004B547B /* CXDBTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A484C5722734CCD004B547B /* CXDBTool.m */; };
 		5AA2119B22773B6E0001C342 /* CXSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA2119A22773B6E0001C342 /* CXSearchModel.m */; };
 		5AA2119F22773C8A0001C342 /* CXSearchCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA2119D22773C8A0001C342 /* CXSearchCollectionViewCell.m */; };
@@ -46,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		02960BBFFEF85C5E83E30630 /* Pods_CXShearchBar_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CXShearchBar_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		181FE8B123867469003A2610 /* QuotationModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuotationModel.h; sourceTree = "<group>"; };
+		181FE8B223867469003A2610 /* QuotationModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuotationModel.m; sourceTree = "<group>"; };
 		18AEF202B43C4FC0173DBB75 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		24E25E6F3E34FEAA3C5A4D68 /* Pods-CXShearchBar_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CXShearchBar_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CXShearchBar_Tests/Pods-CXShearchBar_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		505133119B57939560204218 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -136,6 +139,8 @@
 				5AA2119822773A960001C342 /* CXSearchProtocol.h */,
 				5AA2119922773B6E0001C342 /* CXSearchModel.h */,
 				5AA2119A22773B6E0001C342 /* CXSearchModel.m */,
+				181FE8B123867469003A2610 /* QuotationModel.h */,
+				181FE8B223867469003A2610 /* QuotationModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -339,6 +344,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -427,21 +433,17 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CXShearchBar_Example/Pods-CXShearchBar_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-CXShearchBar_Example/Pods-CXShearchBar_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CXShearchBar_Example/Pods-CXShearchBar_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CXShearchBar_Example/Pods-CXShearchBar_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -453,6 +455,7 @@
 			files = (
 				5AA211A3227741230001C342 /* CXSearchCollectionReusableView.m in Sources */,
 				5A484C5822734CCD004B547B /* CXDBTool.m in Sources */,
+				181FE8B323867469003A2610 /* QuotationModel.m in Sources */,
 				5AA211A6227743560001C342 /* CXSearchLayout.m in Sources */,
 				6003F59E195388D20070C39A /* CXAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* CXViewController.m in Sources */,
